@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Circles</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="paper-full.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.7/howler.core.min.js" type="text/javascript"></script>
+	<script type="text/paperscript" canvas="myCanvas">
+	
+	var circles = [];
+	var keyData = {
+		a: {
+			color:"purple",
+			sound: new Howl({
+  	src: ['sounds/clay.mp3'],
+  	 html5: true
+	})
+		},
+		s: {
+			color: "red",
+			sound: new Howl({
+  	src: ['sounds/bubbles.mp3'],
+  	 html5: true
+	})
+		},
+		d: {
+			color: "white",
+			sound: new Howl({
+  	src: ['sounds/moon.mp3'],
+  	 html5: true
+	})
+		},
+		e: {
+			color: "green",
+			sound: new Howl({
+  	src: ['sounds/ufo.mp3'],
+  	 html5: true
+	})
+		},
+		f: {
+			color: "grey",
+			sound: new Howl({
+  	src: ['sounds/prism-1.mp3'],
+  	 html5: true
+	})
+		}
+	}
+
+
+	function onKeyDown(event) {
+		if(keyData[event.key]) {
+			var maxPoint = new Point(view.size.width,view.size.height);
+			var randomPoint = Point.random();
+			var point = maxPoint * randomPoint;
+			var newCircle = new Path.Circle(point, 500);
+			newCircle.fillColor = keyData[event.key].color;
+			keyData[event.key].sound.play();
+			circles.push(newCircle);
+		} else {
+
+		}
+
+
+		
+
+
+	}
+
+	function onFrame(event) {
+		for(var i = 0; i < circles.length; i++) {
+			circles[i].fillColor.hue += 1;
+			circles[i].scale(.9);
+			if(circles[i].area < 1){
+        	//this removes from canvas not array
+        	console.log(i);
+        	circles[i].remove();
+          	circles.splice(i, 1);
+          	//i--;
+          	console.log(i);
+        }
+		}
+
+	}
+
+
+
+</script>
+</head>
+<body>
+	<canvas id="myCanvas"></canvas>
+
+</body>
+</html>
